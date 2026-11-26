@@ -9,12 +9,12 @@ shelves, fusuma, and an andon that lights the room in the evening. Made from
 | --- | --- |
 | ![](docs/day.jpg) | ![](docs/dusk.jpg) |
 
-*Path-traced in ThreeRT (the preview: `threert dev`).*
+*Path-traced by ThreeRT.*
 
 - The room is a ThreeRT scene module ([scene/main.ts](scene/main.ts)): the client traces it; the web shows its baked
   GLB (`assets/models/scene.glb`).
 - The andon is a GLB of its own ([scene/andon.ts](scene/andon.ts), baked by `bun tools/models.ts`), shown by both.
 - Kind `interior`, topic `interior:gion-machiya`. Everything is made in code: CC0.
 
-Make your own version of it: Remix it in ThreeRT (`threert remix https://github.com/threert/earth-sample-gion-machiya`)
+Make your own version of it: open it in the EarthRT app and **Remix**
 and read [AGENTS.md](AGENTS.md).
