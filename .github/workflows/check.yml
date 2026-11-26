@@ -1,5 +1,5 @@
-# On every push: the scene builds to what is committed in dist/, its fallback is what it builds, and the place
-# passes `bun run check` (the manifest as EarthRT's index checks it, files, model limits, credits).
+# On every push: the scene builds to what is committed in dist/, and the place passes `bun run check` (the manifest
+# as EarthRT's index checks it, files, model limits, credits, the scene running and its fallback up to date).
 name: check
 on:
   push:
@@ -13,10 +13,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - name: "@threert/scene (to run the scene module)"
-        run: mkdir -p .ci && cd .ci && echo '{"private":true}' > package.json && bun add @threert/scene
+      - name: install @threert/scene (to run the scene module)
+        run: |
+          mkdir -p .ci && cd .ci
+          echo '{"private":true}' > package.json
+          bun add @threert/scene
       - name: build
-        run: bun run build && git diff --exit-code -- dist || (echo "::error::dist/ is not what scene/ builds: run bun run build and commit dist/" && exit 1)
+        run: |
+          bun run build
+          if ! git diff --exit-code -- dist; then
+            echo "::error::dist/ is not what scene/ builds - run bun run build and commit dist/"
+            exit 1
+          fi
       - name: check
         env:
           THREERT_SCENE: ${{ github.workspace }}/.ci/node_modules/@threert/scene
