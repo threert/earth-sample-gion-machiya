@@ -118,12 +118,9 @@ export async function check(o: { scene?: boolean } = {}): Promise<Report> {
         const s = glbFile(sc.fallback, r);
         if (s) triangles += s.triangles;
       } else r.warnings.push("the scene has no fallback: the web shows only a marker here (bun run bake)");
-      if (sc.source && existsSync(join(root, sc.source)) && existsSync(join(root, sc.entry))) {
-        const { buildScene } = await import("./build.ts");
-        const before = readFileSync(join(root, sc.entry), "utf8");
-        await buildScene({ quiet: true });
-        const after = readFileSync(join(root, sc.entry), "utf8");
-        if (before !== after) r.warnings.push(`${sc.entry} was out of date with ${sc.source}: rebuilt it (commit it)`);
+      if (existsSync(join(root, sc.entry))) {
+        const { builtHash, sourceHash } = await import("./build.ts");
+        if (builtHash(sc.entry) !== sourceHash()) r.errors.push(`${sc.entry} was not built from scene/ as it is: bun run build (and commit it)`);
       }
       if (o.scene !== false) {
         if (!sceneModulePath()) r.warnings.push("@threert/scene not found: the scene module was not run (install ThreeRT, or see .github/workflows)");

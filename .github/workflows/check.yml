@@ -18,13 +18,8 @@ jobs:
           mkdir -p .ci && cd .ci
           echo '{"private":true}' > package.json
           bun add @threert/scene
-      - name: build
-        run: |
-          bun run build
-          if ! git diff --exit-code -- dist; then
-            echo "::error::dist/ is not what scene/ builds - run bun run build and commit dist/"
-            exit 1
-          fi
+      - name: dist/ is built from scene/
+        run: bun tools/build.ts --verify
       - name: check
         env:
           THREERT_SCENE: ${{ github.workspace }}/.ci/node_modules/@threert/scene
