@@ -11,9 +11,10 @@ shelves, fusuma, and an andon that lights the room in the evening. Made from
 
 *Path-traced by ThreeRT.*
 
-- The room is a ThreeRT scene module ([scene/main.ts](scene/main.ts)): the client traces it; the web shows its baked
-  GLB (`assets/models/scene.glb`).
-- The andon is a GLB of its own ([scene/andon.ts](scene/andon.ts), baked by `bun tools/models.ts`), shown by both.
+- The room is a ThreeRT scene module ([scene/main.ts](scene/main.ts)): the EarthRT app's traced view draws it when
+  you go in (within 40 m: `enterFrom`); the map, on the web and in the app, shows its baked GLB
+  (`assets/models/scene.glb`) from the air.
+- The andon is a GLB of its own ([scene/andon.ts](scene/andon.ts), baked by `bun tools/models.ts`), drawn by both.
 - Kind `interior`, topic `interior:gion-machiya`. Everything is made in code: CC0.
 
 Make your own version of it: open it in the EarthRT app and **Remix**
